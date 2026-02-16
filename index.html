@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOB Étudiant Plus - Trouvez l'emploi qui vous correspond</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        :root {
+            --primary: #4f46e5; /* Indigo vibrant */
+            --secondary: #10b981; /* Vert émeraude */
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --gray: #6b7280;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- 2. HEADER & NAVIGATION --- */
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span { color: var(--secondary); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--dark);
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+
+        .btn-nav {
+            padding: 0.5rem 1.5rem;
+            background: var(--primary);
+            color: var(--white) !important;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        .btn-nav:hover { background: #4338ca; transform: translateY(-2px); }
+
+        .hamburger { display: none; cursor: pointer; font-size: 1.5rem; }
+
+        /* --- 3. HERO SECTION --- */
+        .hero {
+            padding: 160px 5% 100px;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--dark);
+        }
+
+        .hero h1 span { color: var(--primary); }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-group { display: flex; gap: 1rem; justify-content: center; }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary { background: var(--primary); color: var(--white); }
+        .btn-primary:hover { background: #3730a3; box-shadow: var(--shadow); }
+
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: var(--white); }
+
+        .hero-img {
+            margin-top: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* --- 4. À PROPOS & ACTIVITÉ --- */
+        section { padding: 80px 5%; }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .section-title p { color: var(--secondary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+
+        .about-card:hover { transform: translateY(-5px); }
+
+        .about-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            background: #d1fae5;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-inline: auto;
+        }
+
+        /* --- 5. OFFRES D'EMPLOI --- */
+        .jobs-section { background: var(--white); }
+
+        .jobs-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .job-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .job-card:hover { box-shadow: var(--shadow); border-color: var(--primary); }
+
+        .job-img {
+            height: 200px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .job-content { padding: 1.5rem; }
+        
+        .tag {
+            background: #e0e7ff;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .job-title { margin: 10px 0; font-size: 1.25rem; }
+        .job-info { color: var(--gray); font-size: 0.9rem; display: flex; gap: 15px; margin-bottom: 15px; }
+        .job-info i { color: var(--secondary); }
+
+        /* --- 6. AVIS CLIENTS --- */
+        .reviews { background: #f9fafb; }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .quote-icon { font-size: 2rem; color: #e5e7eb; position: absolute; top: 1rem; right: 1rem; }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .user-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .stars { color: #fbbf24; font-size: 0.9rem; }
+
+        /* --- 7. CONTACT --- */
+        .contact-section { background: var(--dark); color: var(--white); }
+        .contact-section .section-title h2 { color: var(--white); }
+
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info, .contact-form { flex: 1; min-width: 300px; }
+
+        .info-item { display: flex; gap: 1rem; margin-bottom: 2rem; align-items: center; }
+        .info-icon { width: 50px; height: 50px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--secondary); }
+
+        .form-group { margin-bottom: 1.5rem; }
+        
+        input, textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--white);
+            font-family: inherit;
+        }
+
+        input:focus, textarea:focus { outline: none; border-color: var(--secondary); }
+
+        /* --- 8. FOOTER --- */
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-icons { margin: 1.5rem 0; }
+        .social-icons a {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: 0.3s;
+        }
+        .social-icons a:hover { color: var(--secondary); }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                box-shadow: 0 10px 10px rgba(0,0,0,0.05);
+                clip-path: circle(0% at 100% 0);
+                transition: all 0.5s ease-in-out;
+            }
+            .nav-links.active { clip-path: circle(140% at 100% 0); }
+            .hero h1 { font-size: 2.5rem; }
+            .contact-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                JOB <span>Étudiant +</span>
+            </a>
+            <div class="hamburger" id="hamburger">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#apropos">À propos</a></li>
+                <li><a href="#offres">Offres</a></li>
+                <li><a href="#avis">Avis</a></li>
+                <li><a href="#contact" class="btn-nav">Contactez-nous</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="accueil" class="hero">
+        <h1>Conjuguez études et <br><span>indépendance financière</span></h1>
+        <p>JOB Étudiant Plus connecte les entreprises locales avec des étudiants motivés. Trouvez des missions flexibles adaptées à votre emploi du temps universitaire.</p>
+        <div class="cta-group">
+            <a href="#offres" class="btn btn-primary">Trouver un job</a>
+            <a href="#contact" class="btn btn-outline">Recruter un étudiant</a>
+        </div>
+        <div class="hero-img">
+            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Étudiants heureux">
+        </div>
+    </section>
+
+    <section id="apropos">
+        <div class="section-title">
+            <p>Notre Mission</p>
+            <h2>Pourquoi nous choisir ?</h2>
+        </div>
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="about-icon"><i class="fa-solid fa-clock"></i></div>
+                <h3>Horaires Flexibles</h3>
+                <p>Nous sélectionnons uniquement des offres compatibles avec un emploi du temps d'étudiant.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-icon"><i class="fa-solid fa-wallet"></i></div>
+                <h3>Rémunération Juste</h3>
+                <p>Toutes nos offres garantissent une rémunération au-dessus du minimum légal pour valoriser votre travail.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-icon"><i class="fa-solid fa-rocket"></i></div>
+                <h3>Expérience Pro</h3>
+                <p>Ne faites pas que gagner de l'argent, construisez votre CV avec des expériences valorisantes.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="offres" class="jobs-section">
+        <div class="section-title">
+            <p>Dernières Opportunités</p>
+            <h2>Nos offres du moment</h2>
+        </div>
+        <div class="jobs-container">
+            <div class="job-card">
+                <div class="job-img" style="background-image: url('https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="job-content">
+                    <span class="tag">Service Client</span>
+                    <h3 class="job-title">Hôte d'accueil événementiel</h3>
+                    <div class="job-info">
+                        <span><i class="fa-solid fa-location-dot"></i> Paris</span>
+                        <span><i class="fa-solid fa-euro-sign"></i> 13€/h</span>
+                    </div>
+                    <button class="btn btn-outline" style="width:100%">Postuler</button>
+                </div>
+            </div>
+            <div class="job-card">
+                <div class="job-img" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="job-content">
+                    <span class="tag">Soutien Scolaire</span>
+                    <h3 class="job-title">Professeur de Mathématiques</h3>
+                    <div class="job-info">
+                        <span><i class="fa-solid fa-location-dot"></i> Lyon / Distanciel</span>
+                        <span><i class="fa-solid fa-euro-sign"></i> 20€/h</span>
+                    </div>
+                    <button class="btn btn-outline" style="width:100%">Postuler</button>
+                </div>
+            </div>
+            <div class="job-card">
+                <div class="job-img" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=500&q=60');"></div>
+                <div class="job-content">
+                    <span class="tag">Vente</span>
+                    <h3 class="job-title">Vendeur prêt-à-porter (Weekend)</h3>
+                    <div class="job-info">
+                        <span><i class="fa-solid fa-location-dot"></i> Bordeaux</span>
+                        <span><i class="fa-solid fa-euro-sign"></i> 11.50€/h</span>
+                    </div>
+                    <button class="btn btn-outline" style="width:100%">Postuler</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="avis" class="reviews">
+        <div class="section-title">
+            <p>Témoignages</p>
+            <h2>Ce qu'ils disent de nous</h2>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <i class="fa-solid fa-quote-right quote-icon"></i>
+                <p>"Grâce à JOB Étudiant +, j'ai trouvé un poste de tuteur en 2 jours. Super simple et efficace pour payer mon loyer !"</p>
+                <div class="user-profile">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sophie" class="user-img">
+                    <div>
+                        <h4>Sophie Martin</h4>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <i class="fa-solid fa-quote-right quote-icon"></i>
+                <p>"Une plateforme sérieuse. Les étudiants que nous avons recrutés pour notre restaurant étaient tous très motivés."</p>
+                <div class="user-profile">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marc" class="user-img">
+                    <div>
+                        <h4>Marc Dubois</h4>
+                        <span style="font-size:0.8rem; color:#6b7280;">Gérant de Bistro</span>
+                    </div>
+                </div>
+            </div>
+            <div class="review-card">
+                <i class="fa-solid fa-quote-right quote-icon"></i>
+                <p>"L'équipe est très réactive. Le site est clair et on ne perd pas de temps avec des annonces périmées."</p>
+                <div class="user-profile">
+                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Léa" class="user-img">
+                    <div>
+                        <h4>Léa Benali</h4>
+                        <div class="stars">★★★★☆</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="section-title">
+            <p>Contact</p>
+            <h2>Discutons de vos besoins</h2>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <div>
+                        <h3>Notre Adresse</h3>
+                        <p>123 Avenue des Étudiants, 75000 Paris</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div>
+                        <h3>Email</h3>
+                        <p>contact@jobetudiantplus.com</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                    <div>
+                        <h3>Téléphone</h3>
+                        <p>01 23 45 67 89</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Votre Nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Votre Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="Votre Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%; border:none;">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h2 style="color:var(--white); margin-bottom:1rem;">JOB Étudiant Plus</h2>
+            <p>La référence pour l'emploi étudiant en France.</p>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+            <p>&copy; 2023 JOB Étudiant Plus. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu Mobile Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Fermer le menu quand on clique sur un lien
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Gestionnaire de formulaire (Simulation)
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Merci ! Votre message a bien été envoyé. Nous vous répondrons sous 24h.");
+            this.reset();
+        });
+
+        // Animation au défilement (Simple fade-in)
+        window.addEventListener('scroll', reveal);
+
+        function reveal(){
+            var reveals = document.querySelectorAll('.about-card, .job-card, .review-card');
+            for(var i = 0; i < reveals.length; i++){
+                var windowheight = window.innerHeight;
+                var revealtop = reveals[i].getBoundingClientRect().top;
+                var revealpoint = 150;
+
+                if(revealtop < windowheight - revealpoint){
+                    reveals[i].style.opacity = '1';
+                    reveals[i].style.transform = 'translateY(0)';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
